@@ -36,11 +36,11 @@ function Search({ searchWeather}) {
     }
     const onClick = () =>{
         if (country === "United States"){
-            searchWeather(city,country,state);
+            //searchWeather(city,country,state);
 
         }
         else{
-            searchWeather(city, country,"");
+            searchWeather();
         }
         
     }
