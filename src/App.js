@@ -10,6 +10,15 @@ import USACodes from './USAStates.json';
 import WeatherCard from './components/weather/WeatherCard';
 import Alert from './components/alert/Alert';
 import NoResultFound from './components/weather/NoResultFound';
+
+let clientID;
+if(process.env.NODE_ENV === 'production'){
+  clientID = process.env.REACT_APP_CLIENT_ID;
+}
+else{
+
+  clientID = process.env.REACT_APP_CLIENT_ID;
+}
 function App() {
   
   
@@ -41,7 +50,7 @@ function App() {
         else{
           const id = cityList[index].id;
           const result = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
+            `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${clientID}&units=metric`);
           
           setCurrentWeather(result.data);
           setFlag(true);
@@ -67,7 +76,7 @@ function App() {
       else{
         const id = cityList[index].id;
         const result = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
+          `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${clientID}&units=metric`);
         setCurrentWeather(result.data);
         setUSState(state);
         setFlag(true);
