@@ -3,17 +3,20 @@ import CountryCodes from '../../CountryCodes.json';
 import USACodes from '../../USAStates.json';
 import './search.css';
 
-function Search({ searchWeather}) {
+function Search({ searchWeather, clearUsers,showClear}) {
   
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
     const [isUS, setISUS] = useState(false);
     const [state,setState] = useState("");
-
+    
     useEffect(()=>{
-        
+       
         setCountry("Afghanistan");
     },[]);
+    const onClickClear = () =>{
+        clearUsers();
+    }
     const handleCity = event =>{
         
         setCity(event.target.value);
@@ -35,15 +38,17 @@ function Search({ searchWeather}) {
         }
     }
     const onClick = () =>{
+        console.log(showClear);
         if (country === "United States"){
-            //searchWeather(city,country,state);
+            searchWeather(city,country,state);
 
         }
         else{
-            searchWeather();
+            searchWeather(city,country,"");
         }
         
     }
+    
     return (
     <div className="container">
         <form  action="/action_page.php">
@@ -87,6 +92,14 @@ function Search({ searchWeather}) {
         <div className="button-container">
             <button onClick={onClick} className="who-are-we border" >Search</button>
         </div>
+        {
+            showClear === false ?
+            <div className="button-container">
+                <button onClick={onClickClear} className="who-are-we border" >Clear</button>
+            </div> : <div></div>
+
+        }
+        
        
     </div>
     

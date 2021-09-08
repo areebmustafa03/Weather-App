@@ -12,7 +12,7 @@
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   }
   .over-card{
-       display: flex;
+    display: flex;
     justify-content: center;
     flex-direction: row;
   }
@@ -27,5 +27,40 @@
     padding: 2px 16px;
   }
   .font{
-      
+    font-family: 'Urbanist', sans-serif;
   }
+  .float-left{
+    float: left;
+    border-color: white;
+  }
+  .float-right{
+    float: right;
+  }
+  .clear{
+    clear: left;
+  }
+  .center-img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.who-are-we {
+    font-family: Volkorn;
+    background: #fe4a49;
+    color:white;
+    font-family: Arial, Helvetica, sans-serif;
+    /* border: 4px solid black; */
+    cursor: pointer;
+    width:30%;
+    height: 50px;
+    font-size: 100%;
+    text-align: center;
+  }
+.border{
+      border-radius: 12px;
+}
