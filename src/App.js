@@ -1,6 +1,6 @@
   
 import './App.css';
-import React, {useState,useEffect} from 'react';
+import React, {useState} from 'react';
 import Navbar from './components/layout/Navbar';
 import Search from './components/searchs/Search';
 import axios from 'axios';
@@ -9,48 +9,74 @@ import cityList from './city.list.json';
 import USACodes from './USAStates.json';
 import WeatherCard from './components/weather/WeatherCard';
 import Alert from './components/alert/Alert';
+import NoResultFound from './components/weather/NoResultFound';
 function App() {
+  
   
  
   const [flag , setFlag] = useState(false);
   const [currentWeather,setCurrentWeather] = useState({});
   const [clear , setClear] = useState(true);
   const [alert, setAlert] = useState(null);
+  const [found,setFound] = useState(false);
   const [usState, setUSState] = useState("");
   
   const searchWeather =  async (city,country,state) => {
 
     const string = city.toLowerCase();
     const realCity =  string.charAt(0).toUpperCase() + string.slice(1);
+    setClear(true);
+
     if (country !== "United States"){
+        
         let foundCountry = CountryCodes.codes.find(count => count.name===country);
         let index = cityList.findIndex(function(item,i){
           return item.country === foundCountry.code && item.name ===realCity;
         });
-        const id = cityList[index].id;
         
-        const result = await axios.get(
-          `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
-        
-        setCurrentWeather(result.data);
+        if (index === -1){
+          
+          setFound(true);
+        }
+        else{
+          const id = cityList[index].id;
+          const result = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
+          
+          setCurrentWeather(result.data);
+          setFlag(true);
+          setClear(false);
+          setFound(false);
+        }
+       
         
     }
     else{
       
+    
       const shortUSName = USACodes.states.find(element => state === element.name);
-      console.log(shortUSName);
+      
       let index = cityList.findIndex(function(item,i){
         return country==="United States" && item.name === realCity && item.state===shortUSName.abbreviation;
       });
     
-      const id = cityList[index].id;
-      const result = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
-      setCurrentWeather(result.data);
-      setUSState(state);
+
+      if (index === -1){
+        setFound(true);
+      }
+      else{
+        const id = cityList[index].id;
+        const result = await axios.get(
+          `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
+        setCurrentWeather(result.data);
+        setUSState(state);
+        setFlag(true);
+        setClear(false);
+        setFound(false);
+      }
+   
     }
-    setFlag(true);
-    setClear(false);
+   
 
     
   }
@@ -59,6 +85,9 @@ function App() {
     setClear(true);
 
     
+  }
+  const noResultFoundClear= () => {
+    setFound(false);
   }
   const setAlerts = (msg) => {
     setAlert({msg});
@@ -70,14 +99,18 @@ function App() {
       <Alert alert={alert}/>
       <Search  searchWeather = {searchWeather} clearUsers={clearUsers} showClear={clear} setAlert={setAlerts}/>
       {
-        flag === true && clear !== true?
+        flag === true && clear !== true && !found?
         <div> 
           <WeatherCard currentWeather={currentWeather} state={usState}  />
 
         </div>
          :
-        <div></div>
+         <div></div>
       }
+      {
+        found && <NoResultFound showClear={found} clearUsers={noResultFoundClear} />
+      }
+      
       
       
      

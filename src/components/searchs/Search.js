@@ -13,17 +13,15 @@ function Search({ searchWeather, clearUsers,showClear,setAlert}) {
     useEffect(()=>{
        
         setCountry("Afghanistan");
+        setState("Alabama");
     },[]);
     const onClickClear = () =>{
         clearUsers();
     }
     const handleCity = event =>{
-        if (city === ''){
-            setAlert('You must enter a valid city name');
-        }
-        else{
-            setCity(event.target.value);
-        }
+        
+        setCity(event.target.value);
+        
         
     }
     const handleState = event =>{
@@ -52,6 +50,7 @@ function Search({ searchWeather, clearUsers,showClear,setAlert}) {
     
             }
             else{
+              
                 searchWeather(city,country,"");
             }
             
