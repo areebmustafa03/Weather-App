@@ -8,13 +8,14 @@ import CountryCodes from './CountryCodes.json';
 import cityList from './city.list.json';
 import USACodes from './USAStates.json';
 import WeatherCard from './components/weather/WeatherCard';
+import Alert from './components/alert/Alert';
 function App() {
   
  
   const [flag , setFlag] = useState(false);
   const [currentWeather,setCurrentWeather] = useState({});
   const [clear , setClear] = useState(true);
-  
+  const [alert, setAlert] = useState(null);
   const [usState, setUSState] = useState("");
   
   const searchWeather =  async (city,country,state) => {
@@ -27,6 +28,7 @@ function App() {
           return item.country === foundCountry.code && item.name ===realCity;
         });
         const id = cityList[index].id;
+        
         const result = await axios.get(
           `https://api.openweathermap.org/data/2.5/weather?id=${id}&appid=${process.env.REACT_APP_CLIENT_ID}&units=metric`);
         
@@ -55,12 +57,18 @@ function App() {
   const clearUsers = () => {
     setCurrentWeather({});
     setClear(true);
+
     
+  }
+  const setAlerts = (msg) => {
+    setAlert({msg});
+    setTimeout(() => setAlert(null),5000);
   }
   return (
     <div>
       <Navbar title='Weather Application'/>
-      <Search  searchWeather = {searchWeather} clearUsers={clearUsers} showClear={clear}/>
+      <Alert alert={alert}/>
+      <Search  searchWeather = {searchWeather} clearUsers={clearUsers} showClear={clear} setAlert={setAlerts}/>
       {
         flag === true && clear !== true?
         <div> 

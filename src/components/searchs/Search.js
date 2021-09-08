@@ -3,7 +3,7 @@ import CountryCodes from '../../CountryCodes.json';
 import USACodes from '../../USAStates.json';
 import './search.css';
 
-function Search({ searchWeather, clearUsers,showClear}) {
+function Search({ searchWeather, clearUsers,showClear,setAlert}) {
   
     const [city, setCity] = useState("");
     const [country, setCountry] = useState("");
@@ -18,8 +18,13 @@ function Search({ searchWeather, clearUsers,showClear}) {
         clearUsers();
     }
     const handleCity = event =>{
+        if (city === ''){
+            setAlert('You must enter a valid city name');
+        }
+        else{
+            setCity(event.target.value);
+        }
         
-        setCity(event.target.value);
     }
     const handleState = event =>{
         
@@ -38,13 +43,18 @@ function Search({ searchWeather, clearUsers,showClear}) {
         }
     }
     const onClick = () =>{
-        console.log(showClear);
-        if (country === "United States"){
-            searchWeather(city,country,state);
-
+        if (city === ''){
+            setAlert('You must enter a valid city name');
         }
         else{
-            searchWeather(city,country,"");
+            if (country === "United States"){
+                searchWeather(city,country,state);
+    
+            }
+            else{
+                searchWeather(city,country,"");
+            }
+            
         }
         
     }
