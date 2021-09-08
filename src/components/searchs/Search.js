@@ -81,7 +81,7 @@ function Search({ searchWeather, clearUsers,showClear,setAlert}) {
                     </select>
             </div>
             {
-                isUS === true ? < div className="row">
+                isUS === true && < div className="row">
                 <div className="col-75">
                     <select onChange={handleState} id="state" name="state">
                         {
@@ -93,7 +93,7 @@ function Search({ searchWeather, clearUsers,showClear,setAlert}) {
                         }
                     </select>
                 </div>
-            </div>: <div></div>
+            </div>
             }
             
             </div>
@@ -102,10 +102,10 @@ function Search({ searchWeather, clearUsers,showClear,setAlert}) {
             <button onClick={onClick} className="who-are-we border" >Search</button>
         </div>
         {
-            showClear === false ?
+            showClear === false &&
             <div className="button-container">
                 <button onClick={onClickClear} className="who-are-we border" >Clear</button>
-            </div> : <div></div>
+            </div>
 
         }
         

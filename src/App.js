@@ -99,13 +99,12 @@ function App() {
       <Alert alert={alert}/>
       <Search  searchWeather = {searchWeather} clearUsers={clearUsers} showClear={clear} setAlert={setAlerts}/>
       {
-        flag === true && clear !== true && !found?
+        (flag === true && clear !== true && !found) &&
         <div> 
           <WeatherCard currentWeather={currentWeather} state={usState}  />
 
         </div>
-         :
-         <div></div>
+         
       }
       {
         found && <NoResultFound showClear={found} clearUsers={noResultFoundClear} />
